@@ -6,12 +6,11 @@ import * as Yup from "yup";
 
 interface LoginProps extends RouteComponentProps { }
 interface MyLoginDetails {
-  loginCred: Array<any> | null
+  loginCred: boolean | null
   storeData: Array<any> | null
 }
 
 class Login extends React.Component<LoginProps, MyLoginDetails> {
-
   constructor(props: any) {
     super(props);
     this.state = {
@@ -91,13 +90,19 @@ class Login extends React.Component<LoginProps, MyLoginDetails> {
                   let newData = this.state.storeData?.find((item: any) => {
                     return (item.email === values.email);
                   });
+                  resetForm();
                   this.setState({
                     loginCred: newData
                   })
-                  resetForm();
+                  if (newData) {
+                    console.log("called");
+                    this.props.history.push('/formList'); 
+                  }
                 }}
               >
                 {({ values, errors, touched, handleChange, handleBlur, handleSubmit }: any) => {
+                  
+                  
                   return (
                     <Form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
                       <Stack spacing={4} sx={{ maxWidth: '25rem' }}>
